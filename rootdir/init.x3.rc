@@ -4,10 +4,6 @@ on early-init
     mount debugfs debugfs /sys/kernel/debug
     write /sys/class/firmware/timeout 5
 
-    mkdir /cal 0770 root system
-    mkdir /persist-lg 0771 system system
-    mkdir /mpt 0775 system system
-
 on init
     mkdir /mnt/media_rw/sdcard1 0700 media_rw media_rw
     mkdir /storage/sdcard1 0700 root root
@@ -32,6 +28,10 @@ on init
     mkdir /storage/sdcard1 0000 system system
 
 on fs
+    mkdir /cal 0770 root system
+    mkdir /persist-lg 0771 system system
+    mkdir /mpt 0775 system system
+
     mount_all ./fstab.x3
 
     mkdir /data/dontpanic
@@ -50,6 +50,13 @@ on fs
     chmod 0666 /data/misc/wifi/firmware_path
 
     setprop ro.crypto.fuse_sdcard true
+
+on early-boot
+    write /sys/devices/system/cpu/cpu0/online 1
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor interactive
+    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor interactive
+    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor interactive
+    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor interactive
 
 on boot
     insmod /system/lib/modules/bthid.ko

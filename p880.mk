@@ -1,4 +1,5 @@
-$(call inherit-product, build/target/product/locales_full.mk)
+$(call inherit-product, $(SRC_TARGET_DIR)/product/locales_full.mk)
+$(call inherit-product-if-exists, vendor/lge/p880/p880-vendor.mk)
 
 # The gps config appropriate for this device
 $(call inherit-product, device/common/gps/gps_eu_supl.mk)
@@ -35,20 +36,25 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/ipc_channels.config:system/etc/ipc_channels.config \
     $(LOCAL_PATH)/configs/nfcee_access.xml:system/etc/nfcee_access.xml
 
+$(call inherit-product, build/target/product/full.mk)
+
 ## Media
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/enctune.conf:system/etc/enctune.conf \
     $(LOCAL_PATH)/configs/media_codecs.xml:system/etc/media_codecs.xml \
     $(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml \
     $(LOCAL_PATH)/configs/nvcamera.conf:system/etc/nvcamera.conf
+
 ## GPS
 PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/lge.cer:system/etc/cert/lge.cer \
     $(LOCAL_PATH)/configs/SuplRootCert:system/etc/SuplRootCert \
     $(LOCAL_PATH)/configs/gps.conf:system/etc/gps.conf \
     $(LOCAL_PATH)/configs/hmconfig.txt:system/etc/hmconfig.txt
 
 ## Input
 PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/configs/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
     $(LOCAL_PATH)/configs/MHLRCP.kl:system/usr/keylayout/MHLRCP.kl \
     $(LOCAL_PATH)/configs/tegra-snd-max98088.kl:system/usr/keylayout/tegra-snd-max98088.kl \
     $(LOCAL_PATH)/configs/touch_dev.kl:system/usr/keylayout/touch_dev.kl \
@@ -59,6 +65,7 @@ PRODUCT_COPY_FILES += \
 	frameworks/av/media/libstagefright/data/media_codecs_google_audio.xml:system/etc/media_codecs_google_audio.xml \
 	frameworks/av/media/libstagefright/data/media_codecs_google_telephony.xml:system/etc/media_codecs_google_telephony.xml \
 	frameworks/av/media/libstagefright/data/media_codecs_google_video.xml:system/etc/media_codecs_google_video.xml \
+	frameworks/av/media/libstagefright/data/media_codecs_ffmpeg.xml:system/etc/media_codecs_ffmpeg.xml \
     $(LOCAL_PATH)/configs/audio_policy.conf:system/etc/audio_policy.conf \
     $(LOCAL_PATH)/configs/audio_effects.conf:system/etc/audio_effects.conf \
     $(LOCAL_PATH)/configs/asound.conf:system/etc/asound.conf \
@@ -80,8 +87,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/alsa/pcm/surround50.conf:system/usr/share/alsa/pcm/surround50.conf \
     $(LOCAL_PATH)/configs/alsa/pcm/surround51.conf:system/usr/share/alsa/pcm/surround51.conf \
     $(LOCAL_PATH)/configs/alsa/pcm/surround71.conf:system/usr/share/alsa/pcm/surround71.conf
-
-$(call inherit-product, build/target/product/full.mk)
 
 # Permission files
 PRODUCT_COPY_FILES += \
@@ -155,12 +160,6 @@ PRODUCT_COPY_FILES += \
 # For SELinux
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/51selinux:system/etc/init.d/51selinux
-
-# Temporarily...
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    ro.boot.selinux=permissive
-
-$(call inherit-product, vendor/lge/p880/p880-vendor.mk)
 
 # Setup Dalvik VM configs.
 $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
