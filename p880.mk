@@ -157,10 +157,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilt/init.rmnet:system/bin/init.rmnet \
     $(LOCAL_PATH)/prebuilt/init.rmnet-down:system/bin/init.rmnet-down
 
-# For SELinux
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilt/51selinux:system/etc/init.d/51selinux
-
 # Setup Dalvik VM configs.
 $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
 

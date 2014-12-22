@@ -33,6 +33,7 @@ on fs
     mkdir /mpt 0775 system system
 
     mount_all ./fstab.x3
+    restorecon_recursive /cal
 
     mkdir /data/dontpanic
     chown root system /data/dontpanic
